@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { PhoneCall, Mail, Clock } from "lucide-react";
 import ContactForm from "@/components/contact-form";
 import BranchLocationCard from "@/components/branch-location-card";
@@ -31,6 +32,19 @@ export default function ContactPage() {
 
       <section className="relative z-10 -mt-14 pb-24 sm:-mt-20">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <Reveal>
+            <div className="relative mb-8 aspect-video overflow-hidden rounded-3xl border border-white/10 sm:aspect-[2/1] lg:aspect-[3/1]">
+              <Image
+                src="/images/finalytics/secondary/contact-office.webp"
+                alt="Welcoming professional office reception"
+                fill
+                priority
+                sizes="(min-width: 1280px) 1200px, 100vw"
+                className="object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-ink/35 to-transparent" />
+            </div>
+          </Reveal>
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
             <Reveal className="lg:col-span-5">
               <div className="flex h-full flex-col justify-between rounded-3xl bg-ink p-8 text-white sm:p-10">

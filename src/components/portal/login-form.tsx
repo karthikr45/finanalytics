@@ -39,7 +39,7 @@ export default function LoginForm() {
   }
 
   return (
-    <div className="rounded-3xl border border-white/10 bg-white p-8 sm:p-10">
+    <div className="rounded-3xl border border-white/10 bg-white p-8 sm:p-10 md:rounded-none md:border-0 md:p-0">
       <h1 className="font-display text-2xl text-ink">Welcome back</h1>
       <p className="mt-2 text-sm text-muted">Sign in to Akshara Connect to view your filings, invoices and documents.</p>
 

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowRight, Check } from "lucide-react";
@@ -9,6 +10,21 @@ import CTABanner from "@/components/cta-banner";
 import Reveal from "@/components/reveal";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+
+const categoryHero: Record<string, { src: string; alt: string }> = {
+  "Tax & Compliance": {
+    src: "/images/finalytics/secondary/service-tax-compliance-hero.webp",
+    alt: "Tax advisor reviewing financial reports and compliance records",
+  },
+  "Company & Legal": {
+    src: "/images/finalytics/secondary/service-company-legal-hero.webp",
+    alt: "Corporate compliance professionals reviewing registration documents",
+  },
+  "Digital Services": {
+    src: "/images/finalytics/secondary/service-digital-hero.webp",
+    alt: "Professional website, ecommerce and mobile application showcase",
+  },
+};
 
 export function generateStaticParams() {
   return services.map((s) => ({ slug: s.slug }));
@@ -39,18 +55,21 @@ export default async function ServiceDetailPage({
 
   const Icon = service.icon;
   const related = getRelatedServices(service);
+  const hero = categoryHero[service.category];
 
   return (
     <>
       <section className="mesh-dark grain relative isolate overflow-hidden pb-20 pt-20 sm:pb-28 sm:pt-28">
-        <div className="mx-auto max-w-5xl px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="flex flex-wrap items-center gap-3 text-xs text-white/50">
             <Link href="/services" className="hover:text-white">Services</Link>
             <span>/</span>
             <span className="text-white/70">{service.title}</span>
           </div>
 
-          <div className="mt-8 flex items-start gap-5">
+          <div className="mt-8 grid items-center gap-10 lg:grid-cols-12">
+          <div className="min-w-0 lg:col-span-7">
+          <div className="flex items-start gap-5">
             <div className="glass-dark flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl text-gold-light">
               <Icon className="h-6 w-6" strokeWidth={1.75} />
             </div>
@@ -77,6 +96,23 @@ export default async function ServiceDetailPage({
             <Button asChild size="lg" variant="outlineDark">
               <Link href="/payments">Pay for this service</Link>
             </Button>
+          </div>
+          </div>
+          {hero && (
+            <div className="relative min-w-0 lg:col-span-5">
+              <div className="relative aspect-[4/3] overflow-hidden rounded-3xl border border-white/10 lg:aspect-[3/2]">
+                <Image
+                  src={hero.src}
+                  alt={hero.alt}
+                  fill
+                  priority
+                  sizes="(min-width: 1024px) 42vw, 100vw"
+                  className="object-cover object-[72%_center]"
+                />
+                <div className="absolute inset-0 bg-gradient-to-r from-ink/35 via-transparent to-transparent" />
+              </div>
+            </div>
+          )}
           </div>
         </div>
       </section>

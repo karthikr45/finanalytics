@@ -56,7 +56,7 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="rounded-3xl border border-white/10 bg-white p-8 sm:p-10">
+    <div className="mx-auto max-w-md rounded-3xl border border-white/10 bg-white p-8 sm:p-10">
       <h1 className="font-display text-2xl text-ink">Create your account</h1>
       <p className="mt-2 text-sm text-muted">
         Set up client access to track filings, invoices and documents in one place.

@@ -8,7 +8,7 @@ export default function PortalAuthLayout({
 }) {
   return (
     <div className="mesh-dark grain relative flex min-h-screen items-center justify-center px-6 py-12">
-      <div className="w-full max-w-md">
+      <div className="w-full max-w-6xl">
         <Link href="/" className="mb-8 flex items-center justify-center gap-2.5">
           <LogoMark className="h-9 w-9" />
           <span className="font-display text-lg tracking-tight text-white">

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { ShieldCheck, Smartphone, CreditCard } from "lucide-react";
 import PayNowForm from "@/components/pay-now-form";
@@ -18,7 +19,7 @@ const trustPoints = [
 export default function PaymentsPage() {
   return (
     <section className="mesh-dark grain relative isolate min-h-[80vh] overflow-hidden py-24 sm:py-32">
-      <div className="mx-auto max-w-lg px-6 lg:px-8">
+      <div className="mx-auto max-w-5xl px-6 lg:px-8">
         <Reveal>
           <div className="text-center">
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gold-light">
@@ -38,8 +39,20 @@ export default function PaymentsPage() {
         </Reveal>
 
         <Reveal delay={0.1}>
-          <div className="mt-10 rounded-[2rem] border border-white/10 bg-white p-7 sm:p-9">
-            <PayNowForm />
+          <div className="mt-10 grid overflow-hidden rounded-[2rem] border border-white/10 bg-white md:grid-cols-2">
+            <div className="relative aspect-[16/10] md:aspect-auto md:min-h-[520px]">
+              <Image
+                src="/images/finalytics/secondary/payments-secure.webp"
+                alt="Secure digital payment confirmation across devices"
+                fill
+                priority
+                sizes="(min-width: 768px) 50vw, 100vw"
+                className="object-cover"
+              />
+            </div>
+            <div className="p-7 sm:p-9">
+              <PayNowForm />
+            </div>
           </div>
         </Reveal>
 

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { ShieldCheck, Gauge, HeartHandshake } from "lucide-react";
 import CTABanner from "@/components/cta-banner";
 import Reveal from "@/components/reveal";
@@ -16,16 +17,33 @@ export default function AboutPage() {
   return (
     <>
       <section className="mesh-dark grain relative isolate overflow-hidden pb-20 pt-24 sm:pb-28 sm:pt-32">
-        <div className="mx-auto max-w-4xl px-6 text-center lg:px-8">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="grid items-center gap-10 lg:grid-cols-12">
+          <div className="min-w-0 lg:col-span-7">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gold-light">
             About Akshara Finalytics
           </p>
           <h1 className="font-display text-balance mt-5 text-4xl leading-[1.1] text-white sm:text-5xl">
             {aboutContent.heading}
           </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-white/65 sm:text-lg">
+          <p className="mt-6 max-w-2xl text-base leading-relaxed text-white/65 sm:text-lg">
             {aboutContent.intro}
           </p>
+          </div>
+          <div className="relative min-w-0 lg:col-span-5">
+            <div className="relative aspect-[4/3] overflow-hidden rounded-3xl border border-white/10 lg:aspect-[3/2]">
+              <Image
+                src="/images/finalytics/secondary/about-team-hero.webp"
+                alt="Team of financial and compliance professionals working together"
+                fill
+                priority
+                sizes="(min-width: 1024px) 42vw, 100vw"
+                className="object-cover object-[70%_center] lg:object-[72%_center]"
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-ink/35 via-transparent to-transparent" />
+            </div>
+          </div>
+          </div>
         </div>
       </section>
 
