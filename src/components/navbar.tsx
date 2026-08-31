@@ -9,6 +9,7 @@ import { brand } from "@/lib/site-content";
 import { categoryOrder, servicesByCategory } from "@/lib/services-content";
 import { Button } from "@/components/ui/button";
 import { LogoLockup } from "@/components/logo";
+import { cn } from "@/lib/utils";
 
 const topLinks = [
   { href: "/", label: "Home" },
@@ -22,6 +23,12 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [megaOpen, setMegaOpen] = useState(false);
   const [prevPathname, setPrevPathname] = useState(pathname);
+
+  // "/" only matches the home page itself; everything else also matches
+  // its own sub-routes (e.g. "/services" stays active on
+  // "/services/gst-compliances") so a parent nav item can highlight too.
+  const isActive = (href: string) =>
+    href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(`${href}/`);
 
   if (pathname !== prevPathname) {
     setPrevPathname(pathname);
@@ -65,7 +72,10 @@ export default function Navbar() {
         <nav className="hidden items-center gap-1 lg:flex">
           <Link
             href="/"
-            className="rounded-full px-4 py-2 text-sm font-medium text-white/75 transition-colors hover:bg-white/5 hover:text-white"
+            className={cn(
+              "rounded-full px-4 py-2 text-sm font-medium transition-colors hover:bg-white/5 hover:text-white",
+              isActive("/") ? "bg-white/10 text-white" : "text-white/75",
+            )}
           >
             Home
           </Link>
@@ -73,20 +83,29 @@ export default function Navbar() {
             type="button"
             onMouseEnter={() => setMegaOpen(true)}
             onClick={() => setMegaOpen((v) => !v)}
-            className="flex items-center gap-1 rounded-full px-4 py-2 text-sm font-medium text-white/75 transition-colors hover:bg-white/5 hover:text-white"
+            className={cn(
+              "flex items-center gap-1 rounded-full px-4 py-2 text-sm font-medium transition-colors hover:bg-white/5 hover:text-white",
+              isActive("/services") || megaOpen ? "bg-white/10 text-white" : "text-white/75",
+            )}
           >
             Services
             <ChevronDown className={`h-3.5 w-3.5 transition-transform ${megaOpen ? "rotate-180" : ""}`} />
           </button>
           <Link
             href="/about"
-            className="rounded-full px-4 py-2 text-sm font-medium text-white/75 transition-colors hover:bg-white/5 hover:text-white"
+            className={cn(
+              "rounded-full px-4 py-2 text-sm font-medium transition-colors hover:bg-white/5 hover:text-white",
+              isActive("/about") ? "bg-white/10 text-white" : "text-white/75",
+            )}
           >
             About
           </Link>
           <Link
             href="/contact"
-            className="rounded-full px-4 py-2 text-sm font-medium text-white/75 transition-colors hover:bg-white/5 hover:text-white"
+            className={cn(
+              "rounded-full px-4 py-2 text-sm font-medium transition-colors hover:bg-white/5 hover:text-white",
+              isActive("/contact") ? "bg-white/10 text-white" : "text-white/75",
+            )}
           >
             Contact
           </Link>
@@ -170,9 +189,18 @@ export default function Navbar() {
                       <li key={s.slug}>
                         <Link
                           href={`/services/${s.slug}`}
-                          className="flex items-center gap-2.5 text-sm text-white/75 transition-colors hover:text-white"
+                          className={cn(
+                            "flex items-center gap-2.5 text-sm transition-colors hover:text-white",
+                            isActive(`/services/${s.slug}`) ? "text-white" : "text-white/75",
+                          )}
                         >
-                          <s.icon className="h-4 w-4 shrink-0 text-white/40" strokeWidth={1.75} />
+                          <s.icon
+                            className={cn(
+                              "h-4 w-4 shrink-0",
+                              isActive(`/services/${s.slug}`) ? "text-gold-light" : "text-white/40",
+                            )}
+                            strokeWidth={1.75}
+                          />
                           {s.title}
                         </Link>
                       </li>
@@ -215,7 +243,10 @@ export default function Navbar() {
                 >
                   <Link
                     href={link.href}
-                    className="block rounded-xl px-3 py-3 text-base font-medium text-white/85 transition-colors hover:bg-white/5 hover:text-white"
+                    className={cn(
+                      "block rounded-xl px-3 py-3 text-base font-medium transition-colors hover:bg-white/5 hover:text-white",
+                      isActive(link.href) ? "bg-white/10 text-white" : "text-white/85",
+                    )}
                   >
                     {link.label}
                   </Link>
@@ -233,7 +264,10 @@ export default function Navbar() {
                       <Link
                         key={s.slug}
                         href={`/services/${s.slug}`}
-                        className="rounded-xl px-3 py-2.5 text-sm text-white/75 transition-colors hover:bg-white/5 hover:text-white"
+                        className={cn(
+                          "rounded-xl px-3 py-2.5 text-sm transition-colors hover:bg-white/5 hover:text-white",
+                          isActive(`/services/${s.slug}`) ? "bg-white/10 text-white" : "text-white/75",
+                        )}
                       >
                         {s.title}
                       </Link>
