@@ -8,6 +8,7 @@ import { Menu, X, PhoneCall, ChevronDown, LogIn, FileText } from "lucide-react";
 import { brand } from "@/lib/site-content";
 import { categoryOrder, servicesByCategory } from "@/lib/services-content";
 import { Button } from "@/components/ui/button";
+import { LogoLockup } from "@/components/logo";
 
 const topLinks = [
   { href: "/", label: "Home" },
@@ -44,7 +45,12 @@ export default function Navbar() {
 
   return (
     <header
-      className={`sticky top-0 z-50 transition-colors duration-300 ${
+      // fixed (not sticky): the header must overlay the hero's dark
+      // background from the very top of the page, not push it down in
+      // normal flow — otherwise the transparent state sits on the plain
+      // page background and its white text is invisible until scroll
+      // triggers the solid bg-ink state.
+      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
         scrolled || open || megaOpen
           ? "bg-ink/95 backdrop-blur-xl border-b border-line-dark"
           : "bg-transparent"
@@ -53,12 +59,7 @@ export default function Navbar() {
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8">
         <Link href="/" className="group flex items-center gap-2.5">
-          <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-gold-light to-gold text-sm font-bold text-ink shadow-[0_0_0_1px_rgba(255,255,255,0.15)]">
-            AF
-          </span>
-          <span className="font-display text-lg tracking-tight text-white">
-            Akshara <span className="text-gold-light">Finalytics</span>
-          </span>
+          <LogoLockup tone="dark" showSuffix={false} />
         </Link>
 
         <nav className="hidden items-center gap-1 lg:flex">

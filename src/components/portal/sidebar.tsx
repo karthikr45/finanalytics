@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import type { Role } from "@prisma/client";
 import { cn } from "@/lib/utils";
+import { LogoMark } from "@/components/logo";
 
 const navItems = [
   { href: "/portal/dashboard", label: "Dashboard", icon: LayoutDashboard, roles: ["CLIENT", "STAFF", "ADMIN"] },
@@ -45,9 +46,7 @@ export default function PortalSidebar({
     <div className="flex h-full flex-col">
       <div className="flex items-center justify-between px-5 py-5">
         <Link href="/" className="flex items-center gap-2.5">
-          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-gold-light to-gold text-xs font-bold text-ink">
-            AF
-          </span>
+          <LogoMark className="h-8 w-8" />
           <span className="font-display text-base text-white">Akshara Connect</span>
         </Link>
         {onClose && (

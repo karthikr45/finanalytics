@@ -3,6 +3,7 @@ import { MapPin, PhoneCall, Mail } from "lucide-react";
 import { FacebookIcon, InstagramIcon, XIcon } from "@/components/icons/social-icons";
 import { brand, branches } from "@/lib/site-content";
 import { servicesByCategory } from "@/lib/services-content";
+import { LogoLockup } from "@/components/logo";
 
 const usefulLinks = [
   { href: "/", label: "Home" },
@@ -28,13 +29,8 @@ export default function Footer() {
       <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8 lg:py-20">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
           <div className="lg:col-span-4">
-            <Link href="/" className="flex items-center gap-2.5">
-              <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-gold-light to-gold text-sm font-bold text-ink">
-                AF
-              </span>
-              <span className="font-display text-lg tracking-tight text-white">
-                Akshara <span className="text-gold-light">Finalytics</span>
-              </span>
+            <Link href="/">
+              <LogoLockup tone="dark" />
             </Link>
             <p className="mt-5 max-w-sm text-sm leading-relaxed text-white/60">
               Tailor-made accounting and business consultancy, trusted by more
