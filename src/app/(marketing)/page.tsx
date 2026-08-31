@@ -95,7 +95,7 @@ export default function Home() {
                 <div className="absolute inset-0 bg-gradient-to-r from-ink/40 via-transparent to-transparent" />
               </div>
               <div className="glass-dark relative -mt-10 mx-4 rounded-2xl p-5 sm:mx-8 sm:p-6 lg:absolute lg:inset-x-5 lg:bottom-5 lg:mt-0">
-                <p className="text-xs font-semibold uppercase tracking-widest text-white/40">
+                <p className="text-xs font-semibold uppercase tracking-widest text-white/70">
                   What we handle this week
                 </p>
                 <ul className="mt-5 space-y-4">
@@ -103,10 +103,10 @@ export default function Home() {
                     (item) => (
                       <li
                         key={item}
-                        className="flex items-center justify-between border-b border-white/10 pb-4 text-sm text-white/80 last:border-0 last:pb-0"
+                        className="flex items-center justify-between gap-4 border-b border-white/15 pb-4 text-sm text-white/90 last:border-0 last:pb-0"
                       >
                         {item}
-                        <span className="rounded-full bg-emerald-soft/20 px-2.5 py-1 text-[0.65rem] font-semibold uppercase tracking-wide text-emerald-light">
+                        <span className="shrink-0 rounded-full bg-emerald-soft px-2.5 py-1 text-[0.65rem] font-bold uppercase tracking-wide text-emerald shadow-sm">
                           On track
                         </span>
                       </li>
