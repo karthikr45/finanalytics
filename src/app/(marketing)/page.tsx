@@ -280,10 +280,10 @@ export default function Home() {
                 </ul>
               </div>
               <div className="grid grid-cols-2 gap-6 lg:col-span-7 lg:grid-cols-4">
-                <StatCounter value={5000} suffix="+" label="Clients trusted" />
-                <StatCounter value={10} suffix="+" label="Years of experience" />
-                <StatCounter value={2} label="Hyderabad branches" />
-                <StatCounter value={24} suffix="/7" label="Support availability" />
+                <StatCounter tone="dark" value={5000} suffix="+" label="Clients trusted" />
+                <StatCounter tone="dark" value={10} suffix="+" label="Years of experience" />
+                <StatCounter tone="dark" value={2} label="Hyderabad branches" />
+                <StatCounter tone="dark" value={24} suffix="/7" label="Support availability" />
               </div>
             </div>
           </div>
