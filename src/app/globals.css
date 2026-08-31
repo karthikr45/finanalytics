@@ -85,12 +85,16 @@
 
 html {
   scroll-behavior: smooth;
+  max-width: 100%;
+  overflow-x: clip;
 }
 
 body {
   background: var(--color-paper);
   color: var(--color-ink-text);
   font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  max-width: 100%;
+  overflow-x: clip;
 }
 
 ::selection {
