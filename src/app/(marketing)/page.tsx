@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight, PhoneCall, Download, MapPin, Sparkles } from "lucide-react";
 import ServiceCard from "@/components/service-card";
 import ProcessSteps from "@/components/process-steps";
@@ -29,13 +30,28 @@ const digitalFeatured = [
   "mobile-applications-development",
 ].map((s) => servicesBySlug.get(s)!);
 
+const financialImages: Record<string, { src: string; alt: string }> = {
+  "gst-compliances": {
+    src: "/images/finalytics/gst-compliance.webp",
+    alt: "GST compliance documents and reporting workspace",
+  },
+  "company-compliances": {
+    src: "/images/finalytics/company-compliance.webp",
+    alt: "Business professionals reviewing company compliance documents",
+  },
+  "book-keeping": {
+    src: "/images/finalytics/bookkeeping.webp",
+    alt: "Professional reconciling a bookkeeping ledger",
+  },
+};
+
 export default function Home() {
   return (
     <>
       {/* Hero */}
       <section className="mesh-dark grain relative isolate overflow-hidden pb-28 pt-24 sm:pb-36 sm:pt-32">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="grid grid-cols-1 items-center gap-16 lg:grid-cols-12">
+          <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-10">
             <div className="lg:col-span-7">
               <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-xs font-medium text-white/70">
                 <Sparkles className="h-3.5 w-3.5 text-gold-light" />
@@ -66,8 +82,19 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="lg:col-span-5">
-              <div className="glass-dark rounded-3xl p-7 sm:p-8">
+            <div className="relative lg:col-span-5">
+              <div className="relative aspect-[4/3] overflow-hidden rounded-3xl border border-white/10 sm:aspect-[3/2] lg:aspect-[3/2]">
+                <Image
+                  src="/images/finalytics/hero-advisor-consultation.webp"
+                  alt="Akshara Finalytics advisor consulting with a business owner"
+                  fill
+                  priority
+                  sizes="(min-width: 1024px) 42vw, 100vw"
+                  className="object-cover object-[70%_center] lg:object-[68%_center]"
+                />
+                <div className="absolute inset-0 bg-gradient-to-r from-ink/40 via-transparent to-transparent" />
+              </div>
+              <div className="glass-dark relative -mt-10 mx-4 rounded-2xl p-5 sm:mx-8 sm:p-6 lg:absolute lg:inset-x-5 lg:bottom-5 lg:mt-0">
                 <p className="text-xs font-semibold uppercase tracking-widest text-white/40">
                   What we handle this week
                 </p>
@@ -112,10 +139,11 @@ export default function Home() {
               </h2>
             </div>
           </Reveal>
-          <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-3">
-            {coreOfferings.map((offering, i) => (
-              <Reveal key={offering.title} delay={i * 0.08}>
-                <div className="h-full rounded-3xl border border-ink/8 bg-white p-8">
+          <div className="mt-12 grid grid-cols-1 gap-8 lg:grid-cols-12 lg:items-center">
+            <div className="grid gap-6 sm:grid-cols-3 lg:col-span-7 lg:grid-cols-1">
+              {coreOfferings.map((offering, i) => (
+                <Reveal key={offering.title} delay={i * 0.08}>
+                  <div className="h-full rounded-3xl border border-ink/8 bg-white p-7 sm:p-8">
                   <span className="font-display text-3xl text-emerald/25">
                     0{i + 1}
                   </span>
@@ -123,9 +151,21 @@ export default function Home() {
                   <p className="mt-2 text-sm leading-relaxed text-muted">
                     {offering.description}
                   </p>
-                </div>
-              </Reveal>
-            ))}
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+            <Reveal delay={0.12} className="lg:col-span-5">
+              <div className="relative mx-auto aspect-[4/5] w-full max-w-[520px] overflow-hidden rounded-3xl border border-ink/8">
+                <Image
+                  src="/images/finalytics/financial-review-advisor.webp"
+                  alt="Financial professional reviewing business reports"
+                  fill
+                  sizes="(min-width: 1024px) 42vw, 100vw"
+                  className="object-cover"
+                />
+              </div>
+            </Reveal>
           </div>
         </div>
       </section>
@@ -171,7 +211,7 @@ export default function Home() {
           <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-3">
             {financialFeatured.map((service, i) => (
               <Reveal key={service.slug} delay={i * 0.08}>
-                <ServiceCard service={service} />
+                <ServiceCard service={service} image={financialImages[service.slug]} />
               </Reveal>
             ))}
           </div>
@@ -195,6 +235,17 @@ export default function Home() {
                 Explore digital services
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
               </Link>
+            </div>
+          </Reveal>
+          <Reveal delay={0.08}>
+            <div className="relative mt-10 aspect-[16/9] overflow-hidden rounded-3xl border border-ink/8 sm:aspect-[2/1]">
+              <Image
+                src="/images/finalytics/digital-services-devices.webp"
+                alt="Website, ecommerce and mobile application interfaces across devices"
+                fill
+                sizes="(min-width: 1280px) 1200px, 100vw"
+                className="object-cover"
+              />
             </div>
           </Reveal>
           <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-3">
@@ -345,16 +396,34 @@ export default function Home() {
       <section className="pb-24 sm:pb-32">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <Reveal>
-            <div className="rounded-[2.5rem] border border-ink/8 bg-white p-8 sm:p-14">
-              <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:items-center">
+            <div className="overflow-hidden rounded-[2.5rem] border border-ink/8 bg-white">
+              <div className="relative aspect-[2/1] min-h-56 lg:hidden">
+                <Image
+                  src="/images/finalytics/hyderabad-skyline.webp"
+                  alt="Hyderabad HITEC City skyline at blue hour"
+                  fill
+                  sizes="100vw"
+                  className="object-cover"
+                />
+              </div>
+              <div className="relative p-8 sm:p-14 lg:min-h-[440px]">
+                <Image
+                  src="/images/finalytics/hyderabad-skyline.webp"
+                  alt="Hyderabad HITEC City skyline at blue hour"
+                  fill
+                  sizes="(min-width: 1280px) 1200px, 100vw"
+                  className="hidden object-cover lg:block"
+                />
+                <div className="absolute inset-0 hidden bg-gradient-to-r from-ink via-ink/90 to-ink/45 lg:block" />
+              <div className="relative grid grid-cols-1 gap-10 lg:grid-cols-12 lg:items-center">
                 <div className="lg:col-span-7">
                   <p className="text-xs font-semibold uppercase tracking-[0.2em] text-emerald">
                     We&rsquo;re from Hyderabad
                   </p>
-                  <h2 className="font-display mt-4 text-3xl text-ink sm:text-4xl">
+                  <h2 className="font-display mt-4 text-3xl text-ink sm:text-4xl lg:text-white">
                     Local, and easy to reach
                   </h2>
-                  <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted">
+                  <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted lg:text-white/70">
                     Two branches across Hyderabad mean an advisor is never far
                     away — whether you&rsquo;d rather meet in person in
                     Himayatnagar or at our HITEC City office in Madhapur.
@@ -362,15 +431,16 @@ export default function Home() {
                 </div>
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:col-span-5">
                   {branches.map((branch) => (
-                    <div key={branch.id} className="rounded-2xl bg-paper-dim p-5">
+                    <div key={branch.id} className="rounded-2xl bg-paper-dim p-5 lg:border lg:border-white/15 lg:bg-ink/70 lg:backdrop-blur-md">
                       <MapPin className="h-4 w-4 text-emerald" />
-                      <p className="font-display mt-3 text-sm text-ink">{branch.name}</p>
-                      <p className="mt-1 text-xs leading-relaxed text-muted">
+                      <p className="font-display mt-3 text-sm text-ink lg:text-white">{branch.name}</p>
+                      <p className="mt-1 text-xs leading-relaxed text-muted lg:text-white/70">
                         {branch.lines.join(", ")}
                       </p>
                     </div>
                   ))}
                 </div>
+              </div>
               </div>
             </div>
           </Reveal>

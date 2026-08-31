@@ -1,16 +1,35 @@
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 import type { ServiceDetail } from "@/lib/services-content";
 import { Badge } from "@/components/ui/badge";
 
-export default function ServiceCard({ service }: { service: ServiceDetail }) {
+type ServiceCardProps = {
+  service: ServiceDetail;
+  image?: { src: string; alt: string };
+};
+
+export default function ServiceCard({ service, image }: ServiceCardProps) {
   const Icon = service.icon;
 
   return (
     <Link
       href={`/services/${service.slug}`}
-      className="card-lift group relative flex h-full flex-col rounded-3xl border border-ink/8 bg-white p-7 shadow-[0_1px_2px_rgba(11,18,32,0.04)] sm:p-8"
+      className="card-lift group relative flex h-full flex-col overflow-hidden rounded-3xl border border-ink/8 bg-white shadow-[0_1px_2px_rgba(11,18,32,0.04)]"
     >
+      {image && (
+        <div className="relative aspect-video overflow-hidden border-b border-ink/8">
+          <Image
+            src={image.src}
+            alt={image.alt}
+            fill
+            sizes="(min-width: 768px) 33vw, 100vw"
+            className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+          />
+        </div>
+      )}
+
+      <div className="flex flex-1 flex-col p-7 sm:p-8">
       <div className="flex items-start justify-between">
         <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-ink/[0.04] text-ink transition-colors duration-300 group-hover:bg-ink group-hover:text-gold-light">
           <Icon className="h-5 w-5" strokeWidth={1.75} />
@@ -32,6 +51,7 @@ export default function ServiceCard({ service }: { service: ServiceDetail }) {
         Learn more
         <ArrowUpRight className="h-3.5 w-3.5" />
       </span>
+      </div>
     </Link>
   );
 }
