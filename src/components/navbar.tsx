@@ -4,27 +4,28 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Menu, X, PhoneCall } from "lucide-react";
-import { contact } from "@/lib/services-data";
+import { Menu, X, PhoneCall, ChevronDown, LogIn, FileText } from "lucide-react";
+import { brand } from "@/lib/site-content";
+import { categoryOrder, servicesByCategory } from "@/lib/services-content";
+import { Button } from "@/components/ui/button";
 
-const links = [
+const topLinks = [
   { href: "/", label: "Home" },
-  { href: "/services", label: "Services" },
-  { href: "/#process", label: "How it works" },
-  { href: "/#contact", label: "Contact" },
+  { href: "/about", label: "About" },
+  { href: "/contact", label: "Contact" },
 ];
 
 export default function Navbar() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [megaOpen, setMegaOpen] = useState(false);
   const [prevPathname, setPrevPathname] = useState(pathname);
 
-  // Close the mobile drawer on navigation. Adjusting state during render
-  // (rather than in an effect) avoids an extra commit-then-correct render.
   if (pathname !== prevPathname) {
     setPrevPathname(pathname);
     setOpen(false);
+    setMegaOpen(false);
   }
 
   useEffect(() => {
@@ -44,10 +45,11 @@ export default function Navbar() {
   return (
     <header
       className={`sticky top-0 z-50 transition-colors duration-300 ${
-        scrolled || open
-          ? "bg-ink/90 backdrop-blur-xl border-b border-line-dark"
+        scrolled || open || megaOpen
+          ? "bg-ink/95 backdrop-blur-xl border-b border-line-dark"
           : "bg-transparent"
       }`}
+      onMouseLeave={() => setMegaOpen(false)}
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8">
         <Link href="/" className="group flex items-center gap-2.5">
@@ -59,32 +61,54 @@ export default function Navbar() {
           </span>
         </Link>
 
-        <nav className="hidden items-center gap-8 lg:flex">
-          {links.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="text-sm font-medium text-white/75 transition-colors hover:text-white"
-            >
-              {link.label}
-            </Link>
-          ))}
+        <nav className="hidden items-center gap-1 lg:flex">
+          <Link
+            href="/"
+            className="rounded-full px-4 py-2 text-sm font-medium text-white/75 transition-colors hover:bg-white/5 hover:text-white"
+          >
+            Home
+          </Link>
+          <button
+            type="button"
+            onMouseEnter={() => setMegaOpen(true)}
+            onClick={() => setMegaOpen((v) => !v)}
+            className="flex items-center gap-1 rounded-full px-4 py-2 text-sm font-medium text-white/75 transition-colors hover:bg-white/5 hover:text-white"
+          >
+            Services
+            <ChevronDown className={`h-3.5 w-3.5 transition-transform ${megaOpen ? "rotate-180" : ""}`} />
+          </button>
+          <Link
+            href="/about"
+            className="rounded-full px-4 py-2 text-sm font-medium text-white/75 transition-colors hover:bg-white/5 hover:text-white"
+          >
+            About
+          </Link>
+          <Link
+            href="/contact"
+            className="rounded-full px-4 py-2 text-sm font-medium text-white/75 transition-colors hover:bg-white/5 hover:text-white"
+          >
+            Contact
+          </Link>
         </nav>
 
-        <div className="hidden items-center gap-5 lg:flex">
-          <a
-            href={`tel:${contact.phone.replace(/-/g, "")}`}
-            className="flex items-center gap-2 text-sm font-medium text-white/75 transition-colors hover:text-white"
-          >
-            <PhoneCall className="h-4 w-4 text-gold-light" strokeWidth={2} />
-            {contact.phone}
-          </a>
+        <div className="hidden items-center gap-3 lg:flex">
           <Link
-            href="/#contact"
-            className="rounded-full bg-gold-light px-5 py-2.5 text-sm font-semibold text-ink shadow-[0_8px_24px_-8px_rgba(228,199,128,0.6)] transition-transform hover:scale-[1.03] active:scale-[0.98]"
+            href="/portal/invoices"
+            className="flex items-center gap-1.5 rounded-full px-3.5 py-2 text-sm font-medium text-white/70 transition-colors hover:bg-white/5 hover:text-white"
           >
-            Book a Consultation
+            <FileText className="h-4 w-4 text-gold-light" />
+            Invoice Login
           </Link>
+          <Link
+            href="/portal/login"
+            className="flex items-center gap-1.5 rounded-full border border-white/15 px-3.5 py-2 text-sm font-medium text-white transition-colors hover:bg-white/5"
+          >
+            <LogIn className="h-4 w-4 text-gold-light" />
+            Akshara Connect
+          </Link>
+          <Button asChild size="sm" variant="gold">
+            <Link href="/payments">Pay Now</Link>
+          </Button>
         </div>
 
         <button
@@ -98,6 +122,51 @@ export default function Navbar() {
         </button>
       </div>
 
+      {/* Desktop mega-menu */}
+      <AnimatePresence>
+        {megaOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.2 }}
+            className="hidden border-t border-line-dark bg-ink/98 backdrop-blur-xl lg:block"
+          >
+            <div className="mx-auto grid max-w-7xl grid-cols-3 gap-8 px-8 py-8">
+              {categoryOrder.map((cat) => (
+                <div key={cat}>
+                  <p className="text-xs font-semibold uppercase tracking-widest text-gold-light">
+                    {cat}
+                  </p>
+                  <ul className="mt-4 space-y-2.5">
+                    {servicesByCategory[cat].map((s) => (
+                      <li key={s.slug}>
+                        <Link
+                          href={`/services/${s.slug}`}
+                          className="flex items-center gap-2.5 text-sm text-white/75 transition-colors hover:text-white"
+                        >
+                          <s.icon className="h-4 w-4 shrink-0 text-white/40" strokeWidth={1.75} />
+                          {s.title}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+            <div className="border-t border-line-dark px-8 py-4">
+              <Link
+                href="/services"
+                className="text-sm font-semibold text-gold-light hover:text-white"
+              >
+                View all services &rarr;
+              </Link>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Mobile drawer */}
       <AnimatePresence>
         {open && (
           <motion.div
@@ -107,13 +176,13 @@ export default function Navbar() {
             transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
             className="overflow-hidden border-t border-line-dark lg:hidden"
           >
-            <nav className="flex flex-col gap-1 px-6 py-6">
-              {links.map((link, i) => (
+            <nav className="flex max-h-[75vh] flex-col gap-1 overflow-y-auto px-6 py-6">
+              {topLinks.map((link, i) => (
                 <motion.div
                   key={link.href}
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.05 }}
+                  transition={{ delay: i * 0.04 }}
                 >
                   <Link
                     href={link.href}
@@ -123,19 +192,54 @@ export default function Navbar() {
                   </Link>
                 </motion.div>
               ))}
-              <div className="mt-3 flex flex-col gap-3 border-t border-line-dark pt-5">
-                <a
-                  href={`tel:${contact.phone.replace(/-/g, "")}`}
+
+              <p className="mt-3 px-3 text-xs font-semibold uppercase tracking-widest text-white/40">
+                Services
+              </p>
+              {categoryOrder.map((cat) => (
+                <div key={cat} className="mt-2">
+                  <p className="px-3 text-xs font-medium text-gold-light">{cat}</p>
+                  <div className="mt-1 flex flex-col">
+                    {servicesByCategory[cat].map((s) => (
+                      <Link
+                        key={s.slug}
+                        href={`/services/${s.slug}`}
+                        className="rounded-xl px-3 py-2.5 text-sm text-white/75 transition-colors hover:bg-white/5 hover:text-white"
+                      >
+                        {s.title}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              ))}
+
+              <div className="mt-4 flex flex-col gap-3 border-t border-line-dark pt-5">
+                <Link
+                  href="/portal/invoices"
                   className="flex items-center gap-2 px-3 text-sm font-medium text-white/75"
                 >
-                  <PhoneCall className="h-4 w-4 text-gold-light" strokeWidth={2} />
-                  {contact.phone}
+                  <FileText className="h-4 w-4 text-gold-light" />
+                  Invoice Login
+                </Link>
+                <Link
+                  href="/portal/login"
+                  className="flex items-center gap-2 px-3 text-sm font-medium text-white/75"
+                >
+                  <LogIn className="h-4 w-4 text-gold-light" />
+                  Akshara Connect
+                </Link>
+                <a
+                  href={`tel:${brand.phone.replace(/-/g, "")}`}
+                  className="flex items-center gap-2 px-3 text-sm font-medium text-white/75"
+                >
+                  <PhoneCall className="h-4 w-4 text-gold-light" />
+                  {brand.phone}
                 </a>
                 <Link
-                  href="/#contact"
+                  href="/payments"
                   className="mx-3 rounded-full bg-gold-light px-5 py-3 text-center text-sm font-semibold text-ink"
                 >
-                  Book a Consultation
+                  Pay Now
                 </Link>
               </div>
             </nav>

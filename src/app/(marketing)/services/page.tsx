@@ -2,10 +2,11 @@ import type { Metadata } from "next";
 import { Sparkles } from "lucide-react";
 import ServicesExplorer from "@/components/services-explorer";
 import ProcessSteps from "@/components/process-steps";
-import StatsStrip from "@/components/stats-strip";
+import PricingTierCard from "@/components/pricing-tier-card";
 import CTABanner from "@/components/cta-banner";
 import Reveal from "@/components/reveal";
-import { categories } from "@/lib/services-data";
+import { categoryOrder } from "@/lib/services-content";
+import { processStrip, pricingTiers } from "@/lib/site-content";
 
 export const metadata: Metadata = {
   title: "Services",
@@ -24,24 +25,18 @@ export default function ServicesPage() {
               10+ years of trusted advisory
             </span>
             <h1 className="font-display text-balance mt-6 text-4xl leading-[1.08] text-white sm:text-5xl lg:text-6xl">
-              Everything your business needs to stay compliant &amp; grow
+              Financial &amp; Tax Compliance, plus Digital Services
             </h1>
             <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-white/60 sm:text-lg">
-              Taxes, registrations, bookkeeping, licenses and digital
-              presence &mdash; ten service lines, one dedicated team, zero
-              missed deadlines.
+              Twelve service lines across tax, company law and digital
+              presence &mdash; one dedicated team, zero missed deadlines.
             </p>
           </div>
 
-          <div className="mx-auto mt-14 grid max-w-5xl grid-cols-2 gap-4 sm:grid-cols-5">
-            {categories.map((cat) => (
-              <div
-                key={cat.id}
-                className="glass-dark rounded-2xl px-4 py-5 text-center"
-              >
-                <p className="text-sm font-semibold text-white">
-                  {cat.label}
-                </p>
+          <div className="mx-auto mt-14 grid max-w-2xl grid-cols-1 gap-4 sm:grid-cols-3">
+            {categoryOrder.map((cat) => (
+              <div key={cat} className="glass-dark rounded-2xl px-4 py-5 text-center">
+                <p className="text-sm font-semibold text-white">{cat}</p>
               </div>
             ))}
           </div>
@@ -50,7 +45,7 @@ export default function ServicesPage() {
 
       <section className="relative z-10 -mt-12 pb-24 sm:-mt-16">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="rounded-[2.5rem] border border-ink/8 bg-paper p-6 shadow-[0_20px_60px_-30px_rgba(10,15,30,0.25)] sm:p-10">
+          <div className="rounded-[2.5rem] border border-ink/8 bg-paper p-6 shadow-[0_20px_60px_-30px_rgba(11,18,32,0.25)] sm:p-10">
             <ServicesExplorer />
           </div>
         </div>
@@ -60,7 +55,7 @@ export default function ServicesPage() {
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <Reveal>
             <div className="mx-auto max-w-2xl text-center">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gold">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-emerald">
                 How it works
               </p>
               <h2 className="font-display mt-4 text-3xl text-ink sm:text-4xl">
@@ -69,14 +64,35 @@ export default function ServicesPage() {
             </div>
           </Reveal>
           <div className="mt-14">
-            <ProcessSteps />
+            <ProcessSteps steps={processStrip} />
           </div>
         </div>
       </section>
 
       <section className="pb-24 sm:pb-28">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <StatsStrip />
+          <Reveal>
+            <div className="mx-auto max-w-2xl text-center">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-emerald">
+                Packages
+              </p>
+              <h2 className="font-display mt-4 text-3xl text-ink sm:text-4xl">
+                Transparent packages, custom quotes
+              </h2>
+              <p className="mt-4 text-sm leading-relaxed text-muted">
+                Every business&rsquo;s filing load is different, so every
+                quote is too &mdash; these packages show what&rsquo;s
+                typically bundled at each stage of growth.
+              </p>
+            </div>
+          </Reveal>
+          <div className="mt-12 grid grid-cols-1 gap-6 lg:grid-cols-3">
+            {pricingTiers.map((tier, i) => (
+              <Reveal key={tier.name} delay={i * 0.08}>
+                <PricingTierCard tier={tier} />
+              </Reveal>
+            ))}
+          </div>
         </div>
       </section>
 

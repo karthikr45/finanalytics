@@ -2,11 +2,11 @@
 
 import { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { categories, services } from "@/lib/services-data";
+import { categoryOrder, services, type ServiceCategory } from "@/lib/services-content";
 import ServiceCard from "@/components/service-card";
 
 export default function ServicesExplorer() {
-  const [active, setActive] = useState<string>("all");
+  const [active, setActive] = useState<ServiceCategory | "all">("all");
 
   const filtered = useMemo(() => {
     if (active === "all") return services;
@@ -27,18 +27,18 @@ export default function ServicesExplorer() {
         >
           All services
         </button>
-        {categories.map((cat) => (
+        {categoryOrder.map((cat) => (
           <button
-            key={cat.id}
+            key={cat}
             type="button"
-            onClick={() => setActive(cat.id)}
+            onClick={() => setActive(cat)}
             className={`shrink-0 rounded-full px-5 py-2.5 text-sm font-semibold transition-colors ${
-              active === cat.id
+              active === cat
                 ? "bg-ink text-white"
                 : "bg-ink/[0.05] text-ink/70 hover:bg-ink/10"
             }`}
           >
-            {cat.label}
+            {cat}
           </button>
         ))}
       </div>

@@ -1,18 +1,48 @@
 @import "tailwindcss";
 
 :root {
-  --color-ink: #0a0f1e;
-  --color-ink-2: #101830;
-  --color-ink-3: #182242;
-  --color-paper: #faf8f3;
-  --color-paper-dim: #f1ede2;
-  --color-gold: #c9a24a;
-  --color-gold-light: #e4c780;
-  --color-emerald: #1f9d6b;
-  --color-ink-text: #0a0f1e;
+  /* Base surfaces */
+  --color-ink: #0b1220;
+  --color-ink-2: #10192c;
+  --color-ink-3: #182238;
+  --color-paper: #faf9f6;
+  --color-paper-dim: #f1efe8;
+
+  /* Primary accent — deep emerald (trust, finance, growth) */
+  --color-emerald: #0f5132;
+  --color-emerald-light: #116b4a;
+  --color-emerald-soft: #e4f0e9;
+
+  /* Secondary accent — warm gold, used sparingly for premium touches */
+  --color-gold: #c9a24b;
+  --color-gold-light: #ddc07f;
+
+  /* Text + neutrals (slate scale) */
+  --color-ink-text: #0b1220;
   --color-muted: #5b6478;
-  --color-line: rgba(10, 15, 30, 0.08);
+  --color-slate-50: #f8f9fb;
+  --color-slate-100: #eef0f4;
+  --color-slate-200: #dde1e8;
+  --color-slate-300: #c3c9d4;
+  --color-slate-400: #9aa2b3;
+  --color-slate-500: #707a8f;
+  --color-slate-600: #545c70;
+  --color-slate-700: #3d4356;
+  --color-slate-800: #262b3a;
+  --color-slate-900: #151925;
+
+  --color-line: rgba(11, 18, 32, 0.08);
   --color-line-dark: rgba(255, 255, 255, 0.1);
+
+  /* Semantic — CRM statuses */
+  --color-success: #0f5132;
+  --color-success-soft: #e4f0e9;
+  --color-warning: #92620a;
+  --color-warning-soft: #fbf0da;
+  --color-danger: #9f1c2e;
+  --color-danger-soft: #fbe7ea;
+  --color-info: #1d4ed8;
+  --color-info-soft: #e6edfc;
 }
 
 @theme inline {
@@ -21,10 +51,30 @@
   --color-ink-3: var(--color-ink-3);
   --color-paper: var(--color-paper);
   --color-paper-dim: var(--color-paper-dim);
+  --color-emerald: var(--color-emerald);
+  --color-emerald-light: var(--color-emerald-light);
+  --color-emerald-soft: var(--color-emerald-soft);
   --color-gold: var(--color-gold);
   --color-gold-light: var(--color-gold-light);
-  --color-emerald: var(--color-emerald);
   --color-muted: var(--color-muted);
+  --color-slate-50: var(--color-slate-50);
+  --color-slate-100: var(--color-slate-100);
+  --color-slate-200: var(--color-slate-200);
+  --color-slate-300: var(--color-slate-300);
+  --color-slate-400: var(--color-slate-400);
+  --color-slate-500: var(--color-slate-500);
+  --color-slate-600: var(--color-slate-600);
+  --color-slate-700: var(--color-slate-700);
+  --color-slate-800: var(--color-slate-800);
+  --color-slate-900: var(--color-slate-900);
+  --color-success: var(--color-success);
+  --color-success-soft: var(--color-success-soft);
+  --color-warning: var(--color-warning);
+  --color-warning-soft: var(--color-warning-soft);
+  --color-danger: var(--color-danger);
+  --color-danger-soft: var(--color-danger-soft);
+  --color-info: var(--color-info);
+  --color-info-soft: var(--color-info-soft);
   --font-display: var(--font-fraunces);
   --font-sans: var(--font-jakarta);
 }
@@ -56,9 +106,9 @@ body {
 .mesh-dark {
   background-color: var(--color-ink);
   background-image:
-    radial-gradient(60% 50% at 12% 8%, rgba(201, 162, 74, 0.20) 0%, transparent 60%),
-    radial-gradient(50% 45% at 90% 15%, rgba(31, 157, 107, 0.18) 0%, transparent 60%),
-    radial-gradient(70% 60% at 50% 100%, rgba(24, 34, 66, 0.9) 0%, transparent 70%);
+    radial-gradient(60% 50% at 12% 8%, rgba(17, 107, 74, 0.28) 0%, transparent 60%),
+    radial-gradient(50% 45% at 90% 15%, rgba(201, 162, 75, 0.16) 0%, transparent 60%),
+    radial-gradient(70% 60% at 50% 100%, rgba(24, 34, 56, 0.9) 0%, transparent 70%);
 }
 
 .grain::before {
@@ -84,7 +134,7 @@ body {
 
 .card-lift:hover {
   transform: translateY(-6px);
-  box-shadow: 0 24px 48px -20px rgba(10, 15, 30, 0.25);
+  box-shadow: 0 24px 48px -20px rgba(11, 18, 32, 0.25);
 }
 
 .text-balance {

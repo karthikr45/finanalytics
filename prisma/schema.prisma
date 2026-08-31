@@ -1,0 +1,198 @@
+// Akshara Finalytics — CRM / Client Portal data model
+// Dev datasource is Postgres, provisioned locally in this environment.
+// Swap DATABASE_URL to a production Postgres instance to deploy.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  CLIENT
+  STAFF
+  ADMIN
+}
+
+enum Branch {
+  HIMAYATNAGAR
+  MADHAPUR
+}
+
+enum LeadStatus {
+  NEW
+  CONTACTED
+  CONVERTED
+  LOST
+}
+
+enum FilingStatus {
+  PENDING
+  IN_PROGRESS
+  FILED
+  OVERDUE
+}
+
+enum DocumentCategory {
+  PAN_AADHAAR
+  GST
+  INCOME_TAX
+  COMPANY_ROC
+  BANK_STATEMENT
+  INVOICE
+  OTHER
+}
+
+enum InvoiceStatus {
+  UNPAID
+  PAID
+  OVERDUE
+}
+
+enum TicketStatus {
+  OPEN
+  IN_PROGRESS
+  RESOLVED
+  CLOSED
+}
+
+enum PaymentStatus {
+  CREATED
+  SUCCESS
+  FAILED
+}
+
+model User {
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  passwordHash String
+  role         Role     @default(CLIENT)
+  phone        String?
+  company      String?
+  branch       Branch?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  documents Document[]
+  invoices  Invoice[]
+  tickets   Ticket[]
+  filings   Filing[]
+  payments  Payment[]
+  notes     ClientNote[] @relation("ClientNotes")
+  authoredNotes ClientNote[] @relation("NoteAuthor")
+
+  @@index([role])
+}
+
+model Lead {
+  id              String     @id @default(cuid())
+  name            String
+  phone           String
+  email           String?
+  serviceInterest String
+  experienceLevel String?
+  message         String?
+  status          LeadStatus @default(NEW)
+  createdAt       DateTime   @default(now())
+
+  @@index([status])
+}
+
+model Service {
+  id       String @id @default(cuid())
+  slug     String @unique
+  title    String
+  category String // "Tax & Compliance" | "Company & Legal" | "Digital Services"
+  summary  String
+  body     String
+  icon     String
+  order    Int    @default(0)
+}
+
+model Filing {
+  id        String       @id @default(cuid())
+  userId    String
+  user      User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      String // GST / ITR / ROC / TDS ...
+  period    String
+  dueDate   DateTime
+  status    FilingStatus @default(PENDING)
+  notes     String?
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+
+  @@index([userId])
+  @@index([status])
+}
+
+model Document {
+  id         String           @id @default(cuid())
+  userId     String
+  user       User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name       String
+  fileUrl    String
+  category   DocumentCategory @default(OTHER)
+  uploadedAt DateTime         @default(now())
+
+  @@index([userId])
+}
+
+model Invoice {
+  id        String        @id @default(cuid())
+  userId    String
+  user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  number    String        @unique
+  service   String
+  amount    Int // in paise
+  status    InvoiceStatus @default(UNPAID)
+  issuedAt  DateTime      @default(now())
+  dueAt     DateTime
+  payments  Payment[]
+
+  @@index([userId])
+  @@index([status])
+}
+
+model Payment {
+  id              String        @id @default(cuid())
+  userId          String
+  user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  invoiceId       String?
+  invoice         Invoice?      @relation(fields: [invoiceId], references: [id])
+  amount          Int // in paise
+  status          PaymentStatus @default(CREATED)
+  razorpayOrderId String?
+  razorpayPaymentId String?
+  createdAt       DateTime      @default(now())
+
+  @@index([userId])
+}
+
+model Ticket {
+  id        String       @id @default(cuid())
+  userId    String
+  user      User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  subject   String
+  message   String
+  status    TicketStatus @default(OPEN)
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+
+  @@index([userId])
+  @@index([status])
+}
+
+model ClientNote {
+  id        String   @id @default(cuid())
+  clientId  String
+  client    User     @relation("ClientNotes", fields: [clientId], references: [id], onDelete: Cascade)
+  authorId  String
+  author    User     @relation("NoteAuthor", fields: [authorId], references: [id])
+  body      String
+  createdAt DateTime @default(now())
+
+  @@index([clientId])
+}
