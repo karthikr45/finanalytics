@@ -122,7 +122,7 @@ export default function Footer() {
                 ))}
               </ul>
             </div>
-            <div>
+            <div className="col-span-2 sm:col-span-1">
               <h3 className="text-xs font-semibold uppercase tracking-widest text-white/40">
                 Company &amp; Legal
               </h3>
@@ -140,7 +140,7 @@ export default function Footer() {
               </ul>
             </div>
 
-            <div className="col-span-2 grid grid-cols-1 gap-6 sm:col-span-4 sm:grid-cols-2 lg:col-span-2 lg:grid-cols-1">
+            <div className="col-span-2 grid grid-cols-1 gap-6 sm:col-span-4 sm:grid-cols-2 lg:col-span-1 lg:grid-cols-1">
               {branches.map((branch) => (
                 <div key={branch.id}>
                   <h3 className="text-xs font-semibold uppercase tracking-widest text-white/40">
