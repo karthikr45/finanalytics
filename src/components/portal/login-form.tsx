@@ -73,13 +73,6 @@ export default function LoginForm() {
           Create an account
         </Link>
       </p>
-
-      <div className="mt-6 rounded-2xl bg-paper-dim p-4 text-xs leading-relaxed text-muted">
-        <p className="font-semibold text-ink/70">Demo credentials</p>
-        <p className="mt-1">Client — client@aksharafinalytics.com / Client@123</p>
-        <p>Staff — staff@aksharafinalytics.com / Staff@123</p>
-        <p>Admin — admin@aksharafinalytics.com / Admin@123</p>
-      </div>
     </div>
   );
 }
