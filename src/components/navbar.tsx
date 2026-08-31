@@ -52,7 +52,7 @@ export default function Navbar() {
       // triggers the solid bg-ink state.
       className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
         scrolled || open || megaOpen
-          ? "bg-ink/95 backdrop-blur-xl border-b border-line-dark"
+          ? "bg-ink border-b border-line-dark"
           : "bg-transparent"
       }`}
       onMouseLeave={() => setMegaOpen(false)}
@@ -123,7 +123,33 @@ export default function Navbar() {
         </button>
       </div>
 
-      {/* Desktop mega-menu */}
+      {/* Dimming scrim behind the mega-menu / mobile drawer. Both dropdowns
+          are short relative to the page, so without this the crisp page
+          content directly below/beside them reads as "mixed in" with the
+          menu — everything is correctly opaque and correctly stacked
+          (verified), it's a visual-crowding problem, not a transparency
+          bug. A backdrop scrim is the standard fix (Stripe, Linear, Vercel
+          all do this): it visually separates "menu" from "rest of page"
+          and doubles as a click-outside-to-close target. */}
+      <AnimatePresence>
+        {(megaOpen || open) && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-40 bg-ink/70"
+            aria-hidden="true"
+            onClick={() => {
+              setMegaOpen(false);
+              setOpen(false);
+            }}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* Desktop mega-menu — `absolute` (not an in-flow child) so it
+          doesn't grow the fixed <header>'s own box when it mounts. */}
       <AnimatePresence>
         {megaOpen && (
           <motion.div
@@ -131,7 +157,7 @@ export default function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.2 }}
-            className="hidden border-t border-line-dark bg-ink/98 backdrop-blur-xl lg:block"
+            className="absolute inset-x-0 top-full z-50 hidden border-t border-line-dark bg-ink lg:block"
           >
             <div className="mx-auto grid max-w-7xl grid-cols-3 gap-8 px-8 py-8">
               {categoryOrder.map((cat) => (
@@ -167,7 +193,9 @@ export default function Navbar() {
         )}
       </AnimatePresence>
 
-      {/* Mobile drawer */}
+      {/* Mobile drawer — absolute + top-full, same reasoning as the
+          mega-menu: doesn't grow the fixed header's own box, and sits
+          above the scrim (z-50 > z-40). */}
       <AnimatePresence>
         {open && (
           <motion.div
@@ -175,7 +203,7 @@ export default function Navbar() {
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="overflow-hidden border-t border-line-dark lg:hidden"
+            className="absolute inset-x-0 top-full z-50 overflow-hidden border-t border-line-dark bg-ink lg:hidden"
           >
             <nav className="flex max-h-[75vh] flex-col gap-1 overflow-y-auto px-6 py-6">
               {topLinks.map((link, i) => (
