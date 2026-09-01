@@ -4,27 +4,13 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowRight, Check } from "lucide-react";
 import { services, getService, getRelatedServices } from "@/lib/services-content";
+import { getServiceHero } from "@/lib/service-images";
 import ServiceCard from "@/components/service-card";
 import FAQAccordion from "@/components/faq-accordion";
 import CTABanner from "@/components/cta-banner";
 import Reveal from "@/components/reveal";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-
-const categoryHero: Record<string, { src: string; alt: string }> = {
-  "Tax & Compliance": {
-    src: "/images/finalytics/secondary/service-tax-compliance-hero.webp",
-    alt: "Tax advisor reviewing financial reports and compliance records",
-  },
-  "Company & Legal": {
-    src: "/images/finalytics/secondary/service-company-legal-hero.webp",
-    alt: "Corporate compliance professionals reviewing registration documents",
-  },
-  "Digital Services": {
-    src: "/images/finalytics/secondary/service-digital-hero.webp",
-    alt: "Professional website, ecommerce and mobile application showcase",
-  },
-};
 
 export function generateStaticParams() {
   return services.map((s) => ({ slug: s.slug }));
@@ -55,7 +41,7 @@ export default async function ServiceDetailPage({
 
   const Icon = service.icon;
   const related = getRelatedServices(service);
-  const hero = categoryHero[service.category];
+  const hero = getServiceHero(service);
 
   return (
     <>
@@ -100,14 +86,15 @@ export default async function ServiceDetailPage({
           </div>
           {hero && (
             <div className="relative min-w-0 lg:col-span-5">
-              <div className="relative aspect-[4/3] overflow-hidden rounded-3xl border border-white/10 lg:aspect-[3/2]">
+              <div className="relative aspect-[4/3] overflow-hidden rounded-3xl border border-white/10 lg:aspect-[16/10]">
                 <Image
                   src={hero.src}
                   alt={hero.alt}
                   fill
                   priority
                   sizes="(min-width: 1024px) 42vw, 100vw"
-                  className="object-cover object-[72%_center]"
+                  className="object-cover"
+                  style={{ objectPosition: hero.objectPosition }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-r from-ink/35 via-transparent to-transparent" />
               </div>

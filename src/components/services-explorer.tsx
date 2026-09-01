@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { categoryOrder, services, type ServiceCategory } from "@/lib/services-content";
 import ServiceCard from "@/components/service-card";
+import { digitalServiceImages } from "@/lib/service-images";
 
 export default function ServicesExplorer() {
   const [active, setActive] = useState<ServiceCategory | "all">("all");
@@ -54,7 +55,7 @@ export default function ServicesExplorer() {
               exit={{ opacity: 0, scale: 0.96 }}
               transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
             >
-              <ServiceCard service={service} />
+              <ServiceCard service={service} image={digitalServiceImages[service.slug]} />
             </motion.div>
           ))}
         </AnimatePresence>

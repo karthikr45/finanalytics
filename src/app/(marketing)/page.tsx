@@ -12,6 +12,7 @@ import StatCounter from "@/components/stat-counter";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { servicesBySlug } from "@/lib/services-content";
+import { digitalServiceImages } from "@/lib/service-images";
 import {
   coreOfferings,
   processStrip,
@@ -237,21 +238,10 @@ export default function Home() {
               </Link>
             </div>
           </Reveal>
-          <Reveal delay={0.08}>
-            <div className="relative mt-10 aspect-[16/9] overflow-hidden rounded-3xl border border-ink/8 sm:aspect-[2/1]">
-              <Image
-                src="/images/finalytics/digital-services-devices.webp"
-                alt="Website, ecommerce and mobile application interfaces across devices"
-                fill
-                sizes="(min-width: 1280px) 1200px, 100vw"
-                className="object-cover"
-              />
-            </div>
-          </Reveal>
           <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-3">
             {digitalFeatured.map((service, i) => (
               <Reveal key={service.slug} delay={i * 0.08}>
-                <ServiceCard service={service} />
+                <ServiceCard service={service} image={digitalServiceImages[service.slug]} />
               </Reveal>
             ))}
           </div>
